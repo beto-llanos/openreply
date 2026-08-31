@@ -53,7 +53,6 @@ COPY --from=build /app/tsconfig.json ./tsconfig.json
 COPY --from=build /app/package.json ./package.json
 
 EXPOSE 3000
-# Default to the web process — the worker service overrides this with
-# `command: ["npm", "run", "worker"]` in whatever compose/stack file deploys
-# it (see openreply-vps.stack.yml in EvolutionAPI/omni-nexus for an example).
-CMD ["npm", "run", "start"]
+# One image, three roles. Each Railway service sets SERVICE_ROLE (web|worker|cron);
+# migrations run at web start because the DB is unreachable at build time.
+CMD ["sh", "-c", "case \"${SERVICE_ROLE:-web}\" in worker) exec npm run worker;; cron) exec sh scripts/cron.sh;; *) npx prisma migrate deploy && exec npm run start;; esac"]

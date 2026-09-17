@@ -2,13 +2,8 @@ import { NextResponse } from "next/server";
 import { getCurrentWorkspaceId } from "@/lib/auth";
 import { prisma } from "@/lib/db/client";
 import { stripeEnabled } from "@/lib/stripe";
-import {
-  PLANS,
-  planFor,
-  dmLimitForTier,
-  isPaidActive,
-  UNLIMITED_DMS,
-} from "@/lib/billing/plans";
+import { PLANS, planFor, isPaidActive, UNLIMITED_DMS } from "@/lib/billing/plans";
+import { effectiveDmLimit, isGrandfathered } from "@/lib/billing/usage";
 
 // Estado del plan del workspace + uso, para la página de billing.
 export async function GET() {
@@ -25,13 +20,15 @@ export async function GET() {
       dmsSentThisPeriod: true,
       planCurrentPeriodEnd: true,
       stripeCustomerId: true,
+      createdAt: true,
     },
   });
   if (!w) return NextResponse.json({ error: "Workspace no encontrado" }, { status: 404 });
 
   const paidActive = w.plan !== "FREE" && isPaidActive(w.subscriptionStatus);
   const effectiveTier = paidActive ? w.plan : "FREE";
-  const limit = dmLimitForTier(effectiveTier);
+  const grandfathered = isGrandfathered(w);
+  const limit = effectiveDmLimit(w);
 
   return NextResponse.json({
     stripeEnabled: stripeEnabled(),
@@ -45,7 +42,7 @@ export async function GET() {
       limit,
       unlimited: limit >= UNLIMITED_DMS,
     },
-    currentName: planFor(effectiveTier).name,
+    currentName: grandfathered ? "Beta (cortesía)" : planFor(effectiveTier).name,
     plans: Object.values(PLANS).map((p) => ({
       tier: p.tier,
       name: p.name,

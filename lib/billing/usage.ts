@@ -1,13 +1,32 @@
 import { prisma } from "@/lib/db/client";
 import type { Prisma } from "@/app/generated/prisma/client";
-import { dmLimitForTier, isPaidActive } from "@/lib/billing/plans";
+import { dmLimitForTier, isPaidActive, UNLIMITED_DMS } from "@/lib/billing/plans";
+
+// Lanzamiento del cobro. Todo workspace creado ANTES de este momento es "beta":
+// conserva DMs ilimitados de cortesía mientras no entre a un plan de pago, para
+// no capar a quien ya usaba Comentio gratis antes de que existieran los planes.
+// Los workspaces creados después empiezan en FREE (50) y pagan para subir.
+export const BILLING_LAUNCH = new Date("2026-09-18T06:00:00Z");
+
+export interface WorkspacePlanFields {
+  plan: "FREE" | "CREATOR" | "BUSINESS";
+  subscriptionStatus: string | null;
+  createdAt: Date;
+  stripeCustomerId: string | null;
+}
+
+// Beta de cortesía: gratis, anterior al lanzamiento y sin haber tocado Stripe.
+export function isGrandfathered(w: WorkspacePlanFields): boolean {
+  return (
+    w.plan === "FREE" && !w.stripeCustomerId && w.createdAt < BILLING_LAUNCH
+  );
+}
 
 // El límite mensual de DMs depende del PLAN del workspace (Comentio). Si el plan
 // es de pago pero la suscripción no está activa (canceló, no pagó), cae a FREE.
-function effectiveDmLimit(w: {
-  plan: "FREE" | "CREATOR" | "BUSINESS";
-  subscriptionStatus: string | null;
-}): number {
+// Los workspaces beta (pre-lanzamiento) mantienen ilimitado.
+export function effectiveDmLimit(w: WorkspacePlanFields): number {
+  if (isGrandfathered(w)) return UNLIMITED_DMS;
   if (w.plan === "FREE") return dmLimitForTier("FREE");
   return isPaidActive(w.subscriptionStatus)
     ? dmLimitForTier(w.plan)
@@ -65,6 +84,8 @@ export async function reserveWorkspaceDMSend(
         dmsSentThisPeriod: true,
         plan: true,
         subscriptionStatus: true,
+        createdAt: true,
+        stripeCustomerId: true,
       },
     });
 
@@ -139,6 +160,8 @@ export async function canSendDMForWorkspace(workspaceId: string): Promise<{
       dmsSentThisPeriod: true,
       plan: true,
       subscriptionStatus: true,
+      createdAt: true,
+      stripeCustomerId: true,
     },
   });
 

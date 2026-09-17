@@ -16,6 +16,7 @@ const navItems = [
   { label: "Campaigns", href: "/campaigns" },
   { label: "DM Logs", href: "/logs" },
   { label: "Settings", href: "/settings" },
+  { label: "Billing", href: "/settings/billing" },
   { label: "Diagnostics", href: "/diagnostics" },
 ];
 
@@ -31,6 +32,14 @@ export default function Sidebar({
   workspaceName,
 }: SidebarProps) {
   const pathname = usePathname();
+
+  // El item activo es el href MÁS específico que matchea, para que /settings/billing
+  // no marque también "Settings" (su prefijo).
+  const activeHref = navItems
+    .filter(
+      (i) => pathname === i.href || pathname.startsWith(i.href + "/")
+    )
+    .sort((a, b) => b.href.length - a.href.length)[0]?.href;
 
   return (
     <>
@@ -63,8 +72,7 @@ export default function Sidebar({
 
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
-            const isActive =
-              pathname === item.href || pathname.startsWith(item.href + "/");
+            const isActive = item.href === activeHref;
             return (
               <Link
                 key={item.href}

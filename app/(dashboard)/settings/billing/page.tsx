@@ -71,7 +71,7 @@ export default function BillingPage() {
 
   if (!data) {
     return (
-      <div className="p-6 text-sm text-neutral-500">
+      <div className="p-6 text-sm text-muted">
         {err ?? "Cargando tu plan…"}
       </div>
     );
@@ -79,21 +79,21 @@ export default function BillingPage() {
 
   return (
     <div className="mx-auto max-w-3xl p-6">
-      <h1 className="text-2xl font-bold tracking-tight">Plan y facturación</h1>
+      <h1 className="text-2xl font-semibold text-foreground">Plan y facturación</h1>
 
       {!data.stripeEnabled && (
-        <p className="mt-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+        <p className="mt-3 rounded-lg border border-warning/40 bg-surface px-4 py-3 text-sm text-warning">
           El cobro todavía no está activado en este servidor. Puedes ver los
           planes, pero aún no se puede pagar.
         </p>
       )}
 
-      <div className="mt-5 rounded-xl border border-neutral-200 bg-white p-5">
-        <div className="flex items-center justify-between gap-3 flex-wrap">
+      <div className="mt-5 rounded-lg border border-border bg-surface p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <div className="text-xs uppercase tracking-wide text-neutral-500">Tu plan</div>
-            <div className="text-lg font-semibold">{data.currentName}</div>
-            <div className="text-sm text-neutral-500">
+            <div className="text-xs uppercase tracking-wide text-muted">Tu plan</div>
+            <div className="text-lg font-semibold text-foreground">{data.currentName}</div>
+            <div className="text-sm text-muted">
               {data.usage.unlimited
                 ? `${data.usage.sent} DMs este mes · ilimitado`
                 : `${data.usage.sent} / ${data.usage.limit} DMs este mes`}
@@ -103,7 +103,7 @@ export default function BillingPage() {
             <button
               onClick={manage}
               disabled={busy === "portal"}
-              className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-semibold hover:bg-neutral-50 disabled:opacity-50"
+              className="rounded border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-surface-hover disabled:opacity-50"
             >
               {busy === "portal" ? "Abriendo…" : "Gestionar suscripción"}
             </button>
@@ -111,7 +111,7 @@ export default function BillingPage() {
         </div>
       </div>
 
-      {err && <p className="mt-3 text-sm text-red-600">{err}</p>}
+      {err && <p className="mt-3 text-sm text-error">{err}</p>}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         {data.plans.map((p) => {
@@ -119,31 +119,31 @@ export default function BillingPage() {
           return (
             <div
               key={p.tier}
-              className={`rounded-xl border p-5 flex flex-col ${
-                isCurrent ? "border-emerald-500 ring-1 ring-emerald-500" : "border-neutral-200"
+              className={`flex flex-col rounded-lg border p-5 ${
+                isCurrent ? "border-accent" : "border-border"
               }`}
             >
-              <div className="text-sm font-semibold">{p.name}</div>
-              <div className="mt-1 text-2xl font-extrabold tracking-tight">
+              <div className="text-sm font-semibold text-foreground">{p.name}</div>
+              <div className="mt-1 text-2xl font-bold text-foreground">
                 {p.priceMxn === 0 ? "$0" : `$${p.priceMxn}`}
-                <span className="text-sm font-medium text-neutral-500"> MXN/mes</span>
+                <span className="text-sm font-medium text-muted"> MXN/mes</span>
               </div>
-              <p className="mt-2 text-sm text-neutral-500">{p.blurb}</p>
-              <ul className="mt-3 space-y-1 text-sm text-neutral-700 flex-1">
+              <p className="mt-2 text-sm text-muted">{p.blurb}</p>
+              <ul className="mt-3 flex-1 space-y-1 text-sm text-foreground">
                 <li>{p.unlimited ? "DMs ilimitados" : `${p.dmLimit} DMs/mes`}</li>
                 <li>{p.maxInstagramAccounts === 1 ? "1 cuenta de Instagram" : `${p.maxInstagramAccounts} cuentas`}</li>
                 {p.teamMembers && <li>Miembros de equipo</li>}
               </ul>
               <div className="mt-4">
                 {isCurrent ? (
-                  <div className="text-center text-sm font-semibold text-emerald-600">Plan actual</div>
+                  <div className="text-center text-sm font-semibold text-accent">Plan actual</div>
                 ) : p.tier === "FREE" ? (
-                  <div className="text-center text-sm text-neutral-400">—</div>
+                  <div className="text-center text-sm text-muted">—</div>
                 ) : (
                   <button
                     onClick={() => subscribe(p.tier)}
                     disabled={!data.stripeEnabled || busy === p.tier}
-                    className="w-full rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50"
+                    className="w-full rounded bg-accent px-4 py-2 text-sm font-semibold text-white hover:bg-accent-hover disabled:opacity-50"
                   >
                     {busy === p.tier ? "Abriendo…" : "Suscribirme"}
                   </button>
@@ -154,7 +154,7 @@ export default function BillingPage() {
         })}
       </div>
 
-      <p className="mt-6 text-xs text-neutral-400">
+      <p className="mt-6 text-xs text-muted">
         Pago seguro con Stripe. Cancela cuando quieras desde “Gestionar suscripción”.
       </p>
     </div>

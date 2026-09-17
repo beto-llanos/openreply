@@ -1,12 +1,37 @@
 import { prisma } from "@/lib/db/client";
 import type { Prisma } from "@/app/generated/prisma/client";
+import { dmLimitForTier, isPaidActive, UNLIMITED_DMS } from "@/lib/billing/plans";
 
-// Self-hosted build: usage is still counted per month so the dashboard can
-// report volume, but no cap is enforced. Meta's own rate limits apply instead.
-// Must stay within PostgreSQL int4 range, since dmsSentThisPeriod is an Int
-// column and this value is used in a `less-than` comparison against it. Two
-// billion DMs/month is effectively unlimited without overflowing the column.
-const MONTHLY_DM_LIMIT = 2_000_000_000;
+// Lanzamiento del cobro. Todo workspace creado ANTES de este momento es "beta":
+// conserva DMs ilimitados de cortesía mientras no entre a un plan de pago, para
+// no capar a quien ya usaba Comentio gratis antes de que existieran los planes.
+// Los workspaces creados después empiezan en FREE (50) y pagan para subir.
+export const BILLING_LAUNCH = new Date("2026-09-18T06:00:00Z");
+
+export interface WorkspacePlanFields {
+  plan: "FREE" | "CREATOR" | "BUSINESS";
+  subscriptionStatus: string | null;
+  createdAt: Date;
+  stripeCustomerId: string | null;
+}
+
+// Beta de cortesía: gratis, anterior al lanzamiento y sin haber tocado Stripe.
+export function isGrandfathered(w: WorkspacePlanFields): boolean {
+  return (
+    w.plan === "FREE" && !w.stripeCustomerId && w.createdAt < BILLING_LAUNCH
+  );
+}
+
+// El límite mensual de DMs depende del PLAN del workspace (Comentio). Si el plan
+// es de pago pero la suscripción no está activa (canceló, no pagó), cae a FREE.
+// Los workspaces beta (pre-lanzamiento) mantienen ilimitado.
+export function effectiveDmLimit(w: WorkspacePlanFields): number {
+  if (isGrandfathered(w)) return UNLIMITED_DMS;
+  if (w.plan === "FREE") return dmLimitForTier("FREE");
+  return isPaidActive(w.subscriptionStatus)
+    ? dmLimitForTier(w.plan)
+    : dmLimitForTier("FREE");
+}
 
 function getMonthStart(date = new Date()): Date {
   return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -57,6 +82,10 @@ export async function reserveWorkspaceDMSend(
       select: {
         usagePeriodStart: true,
         dmsSentThisPeriod: true,
+        plan: true,
+        subscriptionStatus: true,
+        createdAt: true,
+        stripeCustomerId: true,
       },
     });
 
@@ -70,7 +99,7 @@ export async function reserveWorkspaceDMSend(
       };
     }
 
-    const limit = MONTHLY_DM_LIMIT;
+    const limit = effectiveDmLimit(workspace);
 
     if (workspace.dmsSentThisPeriod >= limit) {
       return {
@@ -129,6 +158,10 @@ export async function canSendDMForWorkspace(workspaceId: string): Promise<{
     where: { id: workspaceId },
     select: {
       dmsSentThisPeriod: true,
+      plan: true,
+      subscriptionStatus: true,
+      createdAt: true,
+      stripeCustomerId: true,
     },
   });
 
@@ -136,7 +169,7 @@ export async function canSendDMForWorkspace(workspaceId: string): Promise<{
     return { allowed: false, remaining: 0, limit: 0 };
   }
 
-  const limit = MONTHLY_DM_LIMIT;
+  const limit = effectiveDmLimit(workspace);
   const remaining = Math.max(0, limit - workspace.dmsSentThisPeriod);
 
   return {

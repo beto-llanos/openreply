@@ -75,6 +75,14 @@ model Workspace {
   usagePeriodStart  DateTime @default(now())
   dmsSentThisPeriod Int      @default(0)
 
+  // Billing (Comentio). Nullable/default so existing rows and self-host stay valid
+  // and the app still boots without Stripe configured.
+  plan                 PlanTier  @default(FREE)
+  stripeCustomerId     String?   @unique
+  stripeSubscriptionId String?
+  subscriptionStatus   String?
+  planCurrentPeriodEnd DateTime?
+
   members           WorkspaceMember[]
   invitations       WorkspaceInvitation[]
   instagramAccounts InstagramAccount[]
@@ -86,6 +94,12 @@ model Workspace {
   operationalEvents OperationalEvent[]
 
   @@index([ownerId])
+}
+
+enum PlanTier {
+  FREE
+  CREATOR
+  BUSINESS
 }
 
 model WorkspaceMember {

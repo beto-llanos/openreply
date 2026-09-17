@@ -1,12 +1,18 @@
 import { prisma } from "@/lib/db/client";
 import type { Prisma } from "@/app/generated/prisma/client";
+import { dmLimitForTier, isPaidActive } from "@/lib/billing/plans";
 
-// Self-hosted build: usage is still counted per month so the dashboard can
-// report volume, but no cap is enforced. Meta's own rate limits apply instead.
-// Must stay within PostgreSQL int4 range, since dmsSentThisPeriod is an Int
-// column and this value is used in a `less-than` comparison against it. Two
-// billion DMs/month is effectively unlimited without overflowing the column.
-const MONTHLY_DM_LIMIT = 2_000_000_000;
+// El límite mensual de DMs depende del PLAN del workspace (Comentio). Si el plan
+// es de pago pero la suscripción no está activa (canceló, no pagó), cae a FREE.
+function effectiveDmLimit(w: {
+  plan: "FREE" | "CREATOR" | "BUSINESS";
+  subscriptionStatus: string | null;
+}): number {
+  if (w.plan === "FREE") return dmLimitForTier("FREE");
+  return isPaidActive(w.subscriptionStatus)
+    ? dmLimitForTier(w.plan)
+    : dmLimitForTier("FREE");
+}
 
 function getMonthStart(date = new Date()): Date {
   return new Date(date.getFullYear(), date.getMonth(), 1);
@@ -57,6 +63,8 @@ export async function reserveWorkspaceDMSend(
       select: {
         usagePeriodStart: true,
         dmsSentThisPeriod: true,
+        plan: true,
+        subscriptionStatus: true,
       },
     });
 
@@ -70,7 +78,7 @@ export async function reserveWorkspaceDMSend(
       };
     }
 
-    const limit = MONTHLY_DM_LIMIT;
+    const limit = effectiveDmLimit(workspace);
 
     if (workspace.dmsSentThisPeriod >= limit) {
       return {
@@ -129,6 +137,8 @@ export async function canSendDMForWorkspace(workspaceId: string): Promise<{
     where: { id: workspaceId },
     select: {
       dmsSentThisPeriod: true,
+      plan: true,
+      subscriptionStatus: true,
     },
   });
 
@@ -136,7 +146,7 @@ export async function canSendDMForWorkspace(workspaceId: string): Promise<{
     return { allowed: false, remaining: 0, limit: 0 };
   }
 
-  const limit = MONTHLY_DM_LIMIT;
+  const limit = effectiveDmLimit(workspace);
   const remaining = Math.max(0, limit - workspace.dmsSentThisPeriod);
 
   return {

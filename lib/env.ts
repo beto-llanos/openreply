@@ -82,6 +82,10 @@ export const serverEnvSchema = z.object({
   INSTAGRAM_APP_SECRET: z.string().min(1),
   FACEBOOK_APP_SECRET: z.string().min(1),
   WEBHOOK_VERIFY_TOKEN: z.string().min(1),
+  // Billing (Comentio). Opcionales: sin ellas la app arranca igual y el billing
+  // queda apagado. Se setean cuando se conecta Stripe.
+  STRIPE_SECRET_KEY: z.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().optional(),
 });
 
 export function validateCoreEnv() {

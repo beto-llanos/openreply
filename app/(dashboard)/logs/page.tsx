@@ -39,6 +39,17 @@ const STATUS_FILTERS = [
   "SKIPPED_DEDUP",
 ];
 
+// Etiquetas visibles para cada filtro; el valor interno no cambia.
+const STATUS_FILTER_LABELS: Record<string, string> = {
+  ALL: "Todos",
+  SENT: "Enviados",
+  FAILED: "Fallidos",
+  PENDING: "Pendientes",
+  SKIPPED_RATE_LIMIT: "Límite de tasa",
+  SKIPPED_PLAN_LIMIT: "Límite de plan",
+  SKIPPED_DEDUP: "Duplicados",
+};
+
 export default function LogsPage() {
   const [logs, setLogs] = useState<DmLog[]>([]);
   const [pagination, setPagination] = useState<Pagination | null>(null);
@@ -115,7 +126,7 @@ export default function LogsPage() {
                 }
               `}
             >
-              {status === "ALL" ? "All" : status.replace("SKIPPED_", "").replace("_", " ")}
+              {STATUS_FILTER_LABELS[status] ?? status}
             </button>
           ))}
         </div>
@@ -136,12 +147,12 @@ export default function LogsPage() {
           <table className="w-full min-w-[760px] text-sm">
             <thead>
               <tr className="border-b border-border text-left">
-                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Commenter</th>
-                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Comment</th>
-                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Campaign</th>
-                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Account</th>
-                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Status</th>
-                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Time</th>
+                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Autor</th>
+                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Comentario</th>
+                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Campaña</th>
+                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Cuenta</th>
+                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Estado</th>
+                <th className="px-4 py-4 text-xs font-semibold text-muted uppercase tracking-wider sm:px-6">Hora</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -159,7 +170,7 @@ export default function LogsPage() {
               {!loading && logs.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-4 py-12 text-center text-muted sm:px-6">
-                    No logs found
+                    No se encontraron registros
                   </td>
                 </tr>
               )}
@@ -201,8 +212,8 @@ export default function LogsPage() {
         {pagination && pagination.totalPages > 1 && (
           <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-4 border-t border-border sm:px-6">
             <p className="text-xs text-muted">
-              Showing {(pagination.page - 1) * pagination.limit + 1}–
-              {Math.min(pagination.page * pagination.limit, pagination.total)} of{" "}
+              Mostrando {(pagination.page - 1) * pagination.limit + 1}–
+              {Math.min(pagination.page * pagination.limit, pagination.total)} de{" "}
               {pagination.total}
             </p>
             <div className="flex items-center gap-2">
@@ -214,7 +225,7 @@ export default function LogsPage() {
                 }}
                 className="px-3 py-1.5 rounded-lg text-xs font-medium text-muted border border-border hover:text-foreground hover:border-border-hover transition-all disabled:opacity-30 disabled:pointer-events-none"
               >
-                Previous
+                Anterior
               </button>
               <span className="text-xs text-muted px-2">
                 {page} / {pagination.totalPages}
@@ -227,7 +238,7 @@ export default function LogsPage() {
                 }}
                 className="px-3 py-1.5 rounded-lg text-xs font-medium text-muted border border-border hover:text-foreground hover:border-border-hover transition-all disabled:opacity-30 disabled:pointer-events-none"
               >
-                Next
+                Siguiente
               </button>
             </div>
           </div>

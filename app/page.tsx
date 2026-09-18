@@ -68,9 +68,9 @@ function AppWindow({ label, children }: { label: string; children: ReactNode }) 
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded border border-border bg-surface p-4">
-      <p className="text-sm text-muted">{label}</p>
-      <p className="mt-1 text-2xl font-semibold text-foreground">{value}</p>
+    <div className="min-w-0 rounded border border-border bg-surface p-4">
+      <p className="truncate text-sm text-muted">{label}</p>
+      <p className="mt-1 text-xl font-semibold text-foreground sm:text-2xl">{value}</p>
     </div>
   );
 }
@@ -105,7 +105,7 @@ function OverviewPreview() {
         </span>
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-3">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {overviewStats.map(([label, value]) => (
           <Stat key={label} label={label} value={value} />
         ))}
@@ -216,7 +216,7 @@ function DashboardPreview() {
       <h3 className="text-base font-semibold text-foreground">¡Hola, Maya!</h3>
       <p className="mt-1 text-xs text-muted">2 cuentas conectadas · 340 contactos</p>
 
-      <div className="mt-4 grid grid-cols-3 gap-3">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         {dashboardStats.map(([label, value]) => (
           <Stat key={label} label={label} value={value} />
         ))}
@@ -291,7 +291,7 @@ export default function Home() {
             API oficial de Meta
           </div>
 
-          <h1 className="mt-7 text-balance text-5xl font-black leading-[1.02] text-zinc-900 sm:text-6xl lg:text-7xl">
+          <h1 className="mt-7 text-balance text-[2.5rem] font-black leading-[1.1] text-zinc-900 sm:text-6xl sm:leading-[1.02] lg:text-7xl">
             Cada comentario abre el DM correcto
           </h1>
 
@@ -316,7 +316,7 @@ export default function Home() {
             </a>
           </div>
 
-          <dl className="mt-10 grid max-w-xl grid-cols-3 gap-3">
+          <dl className="mt-10 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-3">
             {heroStats.map((stat) => (
               <div key={stat.label} className="border border-zinc-200 bg-zinc-50 p-4">
                 <dt className="text-2xl font-black text-zinc-900">{stat.value}</dt>
@@ -338,7 +338,7 @@ export default function Home() {
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
           <div>
             <p className="text-sm font-bold uppercase text-orange-600">Cómo funciona</p>
-            <h2 className="mt-3 text-4xl font-black leading-tight text-zinc-900 sm:text-5xl">
+            <h2 className="mt-3 text-3xl font-black leading-tight text-zinc-900 sm:text-5xl">
               Entra un comentario, sale un DM
             </h2>
             <p className="mt-5 text-base leading-8 text-zinc-600">
@@ -371,7 +371,7 @@ export default function Home() {
 
           <div>
             <p className="text-sm font-bold uppercase text-orange-600">El panel</p>
-            <h2 className="mt-3 text-4xl font-black leading-tight text-zinc-900 sm:text-5xl">
+            <h2 className="mt-3 text-3xl font-black leading-tight text-zinc-900 sm:text-5xl">
               Mira exactamente qué pasó
             </h2>
             <p className="mt-5 text-base leading-8 text-zinc-600">
@@ -385,7 +385,7 @@ export default function Home() {
       <section id="features" className="mx-auto w-full max-w-6xl px-5 py-20 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <p className="text-sm font-bold uppercase text-orange-600">Qué incluye</p>
-          <h2 className="mt-3 text-4xl font-black leading-tight text-zinc-900 sm:text-5xl">
+          <h2 className="mt-3 text-3xl font-black leading-tight text-zinc-900 sm:text-5xl">
             Todo listo, sin que instales nada
           </h2>
           <p className="mt-5 text-base leading-8 text-zinc-600">
@@ -409,7 +409,7 @@ export default function Home() {
       <section id="pricing" className="mx-auto w-full max-w-6xl px-5 pb-20 sm:px-6 lg:px-8">
         <div className="grid gap-8 border border-orange-200 bg-orange-50 p-6 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <h2 className="max-w-3xl text-4xl font-black leading-tight text-zinc-900 sm:text-5xl">
+            <h2 className="max-w-3xl text-3xl font-black leading-tight text-zinc-900 sm:text-5xl">
               Convierte los comentarios de tu próximo reel en DMs
             </h2>
             <p className="mt-4 text-base text-zinc-600">

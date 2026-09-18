@@ -33,7 +33,7 @@ export default async function LoginPage({
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6">
+    <div className="min-h-dvh flex items-center justify-center px-6">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold text-foreground">
@@ -52,7 +52,7 @@ export default async function LoginPage({
           {selectedTemplate && !checkEmail && (
             <div className="mb-5 border border-accent/20 bg-accent/10 p-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-accent">
-                Template selected
+                Plantilla seleccionada
               </p>
               <p className="mt-2 text-sm font-semibold text-foreground">
                 {selectedTemplate.title}

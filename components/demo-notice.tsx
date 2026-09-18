@@ -72,23 +72,23 @@ export function DemoNotice({ variant }: { variant: "banner" | "panel" }) {
     return (
       <div className="relative border-b border-orange-200 bg-orange-50">
         <p className="mx-auto w-full max-w-6xl px-10 py-2 text-center text-xs leading-5 text-zinc-700 sm:px-14 sm:text-sm">
-          <span className="font-bold text-zinc-900">{DEMO_HOST}</span> is a
-          demo. OpenReply is self-hosted — signing in here will not send DMs for
-          your account.{" "}
+          <span className="font-bold text-zinc-900">{DEMO_HOST}</span> es una
+          demo. OpenReply es autohospedado; entrar aquí no enviará DMs por tu
+          cuenta.{" "}
           <a
             href={SETUP_DOCS_URL}
             target="_blank"
             rel="noreferrer"
             className="font-bold text-orange-700 underline underline-offset-2 transition hover:text-orange-800"
           >
-            Deploy your own copy
+            Despliega tu propia copia
           </a>
           .
         </p>
         <button
           type="button"
           onClick={dismiss}
-          aria-label="Dismiss demo notice"
+          aria-label="Cerrar aviso de demo"
           className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-zinc-500 transition hover:text-zinc-900 sm:right-4"
         >
           <DismissIcon />
@@ -100,24 +100,24 @@ export function DemoNotice({ variant }: { variant: "banner" | "panel" }) {
   return (
     <div className="relative mb-5 rounded border border-warning/30 bg-warning/10 px-4 py-3 pr-10">
       <p className="text-sm leading-6 text-foreground">
-        <span className="font-semibold">{DEMO_HOST} is a demo instance.</span>{" "}
-        Signing in here will not send DMs for your Instagram account. OpenReply
-        is self-hosted, so it only works on a deployment you run yourself, with
-        your own Meta app and your own domain.{" "}
+        <span className="font-semibold">{DEMO_HOST} es una instancia de demo.</span>{" "}
+        Entrar aquí no enviará DMs por tu cuenta de Instagram. OpenReply es
+        autohospedado, así que solo funciona en un despliegue que tú mismo
+        ejecutes, con tu propia app de Meta y tu propio dominio.{" "}
         <a
           href={SETUP_DOCS_URL}
           target="_blank"
           rel="noreferrer"
           className="font-semibold text-warning underline underline-offset-2"
         >
-          Read the setup guide
+          Lee la guía de configuración
         </a>
         .
       </p>
       <button
         type="button"
         onClick={dismiss}
-        aria-label="Dismiss demo notice"
+        aria-label="Cerrar aviso de demo"
         className="absolute right-1 top-1 p-2 text-muted transition hover:text-foreground"
       >
         <DismissIcon />

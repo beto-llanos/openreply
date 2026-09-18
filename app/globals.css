@@ -16,8 +16,22 @@
   --color-success: #16a34a;
   --color-error: #dc2626;
   --color-warning: #d97706;
-  --font-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: ui-monospace, monospace;
+
+  /* Landing-only tokens. The private dashboard keeps every base token above
+     untouched; the warm-paper palette lives as arbitrary hex in the landing
+     markup, and these named extras cover the espresso band, the support teal
+     and the orange-as-text / orange-wash treatments. */
+  --color-night: #17130f;
+  --color-night-raised: #241d17;
+  --color-on-night: #f2e9de;
+  --color-on-night-muted: #a89a8c;
+  --color-support: #0f766e;
+  --color-support-live: #14b8a6;
+  --color-accent-tint: #ffe7d3;
+  --color-accent-ink: #7c2d12;
+
+  --font-sans: var(--font-archivo), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 html {
@@ -86,5 +100,101 @@ select:focus-visible {
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Landing motion — CSS only, scoped to landing-only classes ──────────────
+   The hero phone plays a 3-beat loop: comment lands, keyword matches, DM sent.
+   Nothing here touches the dashboard. The resting/default look of every piece
+   is the finished "DM sent" beat, so reduced-motion and unsupported browsers
+   both land on a coherent frame instead of a blank one. */
+
+.hero-demo .cmt-in {
+  animation: cmtIn 7s ease-in-out infinite both;
+}
+.hero-demo .kw {
+  animation: kwHi 7s ease-in-out infinite both;
+}
+.hero-demo .dm-rise {
+  animation: dmRise 7s ease-in-out infinite both;
+}
+.hero-demo .sent-tag {
+  animation: sentTag 7s ease-in-out infinite both;
+}
+
+@keyframes cmtIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  6% { opacity: 0; transform: translateY(10px); }
+  14% { opacity: 1; transform: translateY(0); }
+  88% { opacity: 1; transform: translateY(0); }
+  97%, 100% { opacity: 0; transform: translateY(0); }
+}
+
+@keyframes kwHi {
+  0%, 28% { background-color: transparent; color: inherit; }
+  36%, 100% { background-color: var(--color-accent); color: #fff; }
+}
+
+@keyframes dmRise {
+  0%, 48% { opacity: 0; transform: translateY(16px); }
+  58% { opacity: 1; transform: translateY(0); }
+  88% { opacity: 1; transform: translateY(0); }
+  97%, 100% { opacity: 0; transform: translateY(0); }
+}
+
+@keyframes sentTag {
+  0%, 64% { opacity: 0; transform: translateY(8px); }
+  72% { opacity: 1; transform: translateY(0); }
+  88% { opacity: 1; transform: translateY(0); }
+  97%, 100% { opacity: 0; transform: translateY(0); }
+}
+
+/* "En vivo" dot on the espresso band. */
+.live-dot {
+  animation: livePulse 2.2s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.55); }
+  50% { box-shadow: 0 0 0 5px rgba(20, 184, 166, 0); }
+}
+
+/* Section headers ease up as they scroll in. Progressive enhancement only:
+   the hidden start state exists solely where scroll timelines are supported
+   and motion is allowed, so anywhere else the content is simply visible. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: revealUp both linear;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+    }
+  }
+}
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Motion off: freeze the hero demo on the finished "sent" beat and drop the
+   reveal/pulse. Class selectors beat the universal guard above on specificity. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-demo .cmt-in,
+  .hero-demo .dm-rise,
+  .hero-demo .sent-tag,
+  .live-dot,
+  .reveal {
+    animation: none !important;
+  }
+  .hero-demo .cmt-in,
+  .hero-demo .dm-rise,
+  .hero-demo .sent-tag,
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .hero-demo .kw {
+    animation: none !important;
+    background-color: var(--color-accent) !important;
+    color: #fff !important;
   }
 }

@@ -3,8 +3,8 @@ import { getCampaignTemplate } from "@/lib/templates/campaign-templates";
 import { DemoNotice } from "@/components/demo-notice";
 
 export const metadata = {
-  title: "Login - OpenReply",
-  description: "Sign in to manage Instagram comment-to-DM campaigns.",
+  title: "Entrar - Comentio",
+  description: "Entra para administrar tus campañas de comentario a DM en Instagram.",
 };
 
 export default async function LoginPage({
@@ -37,12 +37,12 @@ export default async function LoginPage({
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold text-foreground">
-            OpenReply
+            Comentio
           </h1>
           <p className="text-muted text-sm leading-relaxed mt-2">
             {selectedTemplate
-              ? `Sign in to use the ${selectedTemplate.title} template.`
-              : "Sign in by email, then connect your Instagram professional account."}
+              ? `Entra para usar la plantilla ${selectedTemplate.title}.`
+              : "Entra con tu correo y conecta tu cuenta profesional de Instagram."}
           </p>
         </div>
 
@@ -62,10 +62,10 @@ export default async function LoginPage({
 
           {checkEmail ? (
             <div className="text-center py-4">
-              <h2 className="text-lg font-semibold mb-2">Check your email</h2>
+              <h2 className="text-lg font-semibold mb-2">Revisa tu correo</h2>
               <p className="text-sm text-muted">
-                We sent you a secure sign-in link. Open it on this device to
-                continue.
+                Te enviamos un enlace seguro para entrar. Ábrelo en este
+                dispositivo para continuar.
               </p>
             </div>
           ) : (
@@ -75,7 +75,7 @@ export default async function LoginPage({
                   htmlFor="email"
                   className="block text-sm font-medium text-foreground"
                 >
-                  Work email
+                  Correo
                 </label>
                 <input
                   id="email"
@@ -83,7 +83,7 @@ export default async function LoginPage({
                   type="email"
                   required
                   autoComplete="email"
-                  placeholder="you@company.com"
+                  placeholder="tu@correo.com"
                   className="w-full px-4 py-3 rounded bg-surface border border-border text-sm text-foreground placeholder:text-zinc-500 focus:border-accent/40 focus:outline-none transition-colors"
                 />
               </div>
@@ -92,7 +92,7 @@ export default async function LoginPage({
                 type="submit"
                 className="w-full inline-flex items-center justify-center gap-2 rounded bg-accent px-6 py-3.5 text-sm font-semibold text-white shadow-indigo-500/25 transition-all hover:shadow-indigo-500/30"
               >
-                Email me a magic link
+                Mándame un enlace mágico
               </button>
             </form>
           )}

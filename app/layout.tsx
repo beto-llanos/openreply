@@ -3,20 +3,20 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OpenReply - Open source Instagram comment-to-DM automation",
+  title: "Comentio - Comentarios de Instagram a DM automático",
   description:
-    "A free, self-hosted ManyChat alternative. Send an Instagram DM automatically when someone comments a keyword on your post or reel, using the official Meta API.",
+    "Manda un DM de Instagram automáticamente cuando alguien comenta una palabra clave en tu post o reel, con la API oficial de Meta. En español y hosteado por nosotros.",
   keywords: [
-    "instagram automation",
-    "comment to DM",
-    "instagram private replies",
+    "automatización instagram",
+    "comentario a DM",
+    "respuestas privadas instagram",
     "social commerce",
-    "manychat alternative",
+    "alternativa manychat",
   ],
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "OpenReply",
+    title: "Comentio",
     statusBarStyle: "black-translucent",
   },
   icons: {
@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full dark">
+    <html lang="es" className="h-full dark">
       <body
         className="min-h-full bg-background text-foreground font-sans antialiased"
         // Clears the home indicator when installed; 0 everywhere else.

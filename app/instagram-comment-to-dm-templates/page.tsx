@@ -3,14 +3,14 @@ import SeoPageShell from "@/components/seo-page-shell";
 import { templatesSeoPage } from "@/lib/seo-pages";
 
 export const metadata: Metadata = {
-  title: "Instagram Comment-to-DM Templates for Campaigns",
+  title: "Plantillas de comentario a DM de Instagram para campañas",
   description:
-    "Browse Instagram comment-to-DM templates for lead magnets, product links, price replies, launch waitlists, creators, and agencies.",
+    "Explora plantillas de comentario a DM de Instagram para lead magnets, enlaces de producto, respuestas de precio, listas de espera de lanzamiento, creadores y agencias.",
   alternates: { canonical: "/instagram-comment-to-dm-templates" },
   openGraph: {
-    title: "Instagram Comment-to-DM Templates for Campaigns",
+    title: "Plantillas de comentario a DM de Instagram para campañas",
     description:
-      "Start with OpenReply templates for high-intent Instagram keyword comments and private replies.",
+      "Empieza con las plantillas de Comentio para comentarios de alta intención con palabras clave de Instagram y respuestas privadas.",
     url: "/instagram-comment-to-dm-templates",
   },
 };

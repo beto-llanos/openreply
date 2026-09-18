@@ -3,14 +3,14 @@ import SeoPageShell from "@/components/seo-page-shell";
 import { agenciesSeoPage } from "@/lib/seo-pages";
 
 export const metadata: Metadata = {
-  title: "Instagram DM Automation for Agencies",
+  title: "Automatización de DM de Instagram para agencias",
   description:
-    "Instagram DM automation for agencies with multi-account workspaces, comment-to-DM campaigns, tracked links, and shareable client reports.",
+    "Automatización de DM de Instagram para agencias con espacios de trabajo de múltiples cuentas, campañas de comentario a DM, enlaces rastreados y reportes para clientes que puedes compartir.",
   alternates: { canonical: "/instagram-dm-automation-agencies" },
   openGraph: {
-    title: "Instagram DM Automation for Agencies",
+    title: "Automatización de DM de Instagram para agencias",
     description:
-      "Manage client Instagram comment-to-DM campaigns with OpenReply agency workspaces.",
+      "Administra las campañas de comentario a DM de Instagram de tus clientes con los espacios de trabajo de agencia de Comentio.",
     url: "/instagram-dm-automation-agencies",
   },
 };

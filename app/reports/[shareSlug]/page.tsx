@@ -8,8 +8,8 @@ type ReportPageProps = {
 };
 
 function formatDate(date: Date | null) {
-  if (!date) return "No sends yet";
-  return date.toLocaleDateString("en-US", {
+  if (!date) return "Sin envíos aún";
+  return date.toLocaleDateString("es-MX", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -46,14 +46,14 @@ export async function generateMetadata({
 
   if (!report) {
     return {
-      title: "Report Not Found",
+      title: "Reporte no encontrado",
       robots: { index: false, follow: false },
     };
   }
 
   return {
-    title: `${report.campaign.name} Campaign Report`,
-    description: `Read-only Instagram comment-to-DM campaign report for ${report.campaign.name}.`,
+    title: `Reporte de campaña de ${report.campaign.name}`,
+    description: `Reporte de solo lectura de la campaña de comentario a DM de Instagram de ${report.campaign.name}.`,
     robots: { index: false, follow: false },
   };
 }
@@ -78,7 +78,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <div>
               <p className="text-sm font-bold uppercase tracking-wide text-cyan-200">
-                Client campaign report
+                Reporte de campaña para clientes
               </p>
               <h1 className="mt-4 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
                 {report.campaign.name}
@@ -93,25 +93,25 @@ export default async function ReportPage({ params }: ReportPageProps) {
                 )}
                 <span>·</span>
                 <span>
-                  {report.campaign.isActive ? "Active campaign" : "Paused campaign"}
+                  {report.campaign.isActive ? "Campaña activa" : "Campaña pausada"}
                 </span>
               </div>
             </div>
 
             <div className="border border-white/10 bg-white/[0.035] p-4 text-sm text-zinc-300 md:min-w-64">
               <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                Workspace
+                Espacio de trabajo
               </p>
               <p className="mt-2 font-bold text-white">{report.workspace.name}</p>
               <p className="mt-4 text-xs text-zinc-500">
-                Generated {formatDate(report.generatedAt)}
+                Generado {formatDate(report.generatedAt)}
               </p>
               {report.branded && (
                 <Link
                   href="/"
                   className="mt-4 inline-flex items-center justify-center border border-cyan-200/20 bg-cyan-300/10 px-3 py-2 text-xs font-semibold text-cyan-100 transition hover:border-cyan-200/40"
                 >
-                  Powered by OpenReply
+                  Con tecnología de Comentio
                 </Link>
               )}
             </div>
@@ -122,29 +122,29 @@ export default async function ReportPage({ params }: ReportPageProps) {
       <section className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <MetricCard
-            label="DMs sent"
+            label="DMs enviados"
             value={report.metrics.sent}
-            helper="Private replies successfully sent."
+            helper="Respuestas privadas enviadas con éxito."
           />
           <MetricCard
-            label="Skipped"
+            label="Omitidos"
             value={report.metrics.skipped}
-            helper="Duplicates, limits, or no-send outcomes."
+            helper="Duplicados, límites o casos sin envío."
           />
           <MetricCard
-            label="Failed"
+            label="Fallidos"
             value={report.metrics.failed}
-            helper="Replies that need operational review."
+            helper="Respuestas que necesitan revisión operativa."
           />
           <MetricCard
-            label="Clicks"
+            label="Clics"
             value={report.metrics.clicks}
-            helper="Tracked link visits from replies."
+            helper="Visitas a enlaces rastreados desde las respuestas."
           />
           <MetricCard
             label="CTR"
             value={`${report.metrics.ctr}%`}
-            helper="Clicks divided by sent replies."
+            helper="Clics divididos entre las respuestas enviadas."
           />
         </div>
 
@@ -153,14 +153,14 @@ export default async function ReportPage({ params }: ReportPageProps) {
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h2 className="text-xl font-black text-white">
-                  Last 7 Days
+                  Últimos 7 días
                 </h2>
                 <p className="mt-2 text-sm text-zinc-400">
-                  Sent replies and tracked clicks by day.
+                  Respuestas enviadas y clics rastreados por día.
                 </p>
               </div>
               <p className="text-xs text-zinc-500">
-                Last send: {formatDate(report.metrics.latestSentAt)}
+                Último envío: {formatDate(report.metrics.latestSentAt)}
               </p>
             </div>
             <div className="mt-8 grid h-56 grid-cols-7 items-end gap-1.5 sm:gap-3">
@@ -172,14 +172,14 @@ export default async function ReportPage({ params }: ReportPageProps) {
                       style={{
                         height: `${Math.max((day.sent / maxDaily) * 100, 4)}%`,
                       }}
-                      title={`${day.sent} sent`}
+                      title={`${day.sent} enviados`}
                     />
                     <div
                       className="w-full bg-emerald-300/75"
                       style={{
                         height: `${Math.max((day.clicks / maxDaily) * 100, 4)}%`,
                       }}
-                      title={`${day.clicks} clicks`}
+                      title={`${day.clicks} clics`}
                     />
                   </div>
                   <p className="truncate text-center text-[11px] text-zinc-500">
@@ -191,22 +191,22 @@ export default async function ReportPage({ params }: ReportPageProps) {
             <div className="mt-5 flex flex-wrap gap-4 text-xs text-zinc-400">
               <span className="inline-flex items-center gap-2">
                 <span className="h-2 w-2 bg-cyan-300" />
-                Sent replies
+                Respuestas enviadas
               </span>
               <span className="inline-flex items-center gap-2">
                 <span className="h-2 w-2 bg-emerald-300" />
-                Link clicks
+                Clics en enlaces
               </span>
             </div>
           </section>
 
           <aside className="space-y-6">
             <section className="border border-white/10 bg-white/[0.035] p-4 sm:p-6">
-              <h2 className="text-xl font-black text-white">Top Keywords</h2>
+              <h2 className="text-xl font-black text-white">Palabras clave principales</h2>
               <div className="mt-5 space-y-3">
                 {report.topKeywords.length === 0 && (
                   <p className="text-sm text-zinc-400">
-                    No matched keyword data yet.
+                    Aún no hay datos de palabras clave coincidentes.
                   </p>
                 )}
                 {report.topKeywords.map((keyword) => (
@@ -226,11 +226,11 @@ export default async function ReportPage({ params }: ReportPageProps) {
             </section>
 
             <section className="border border-white/10 bg-white/[0.035] p-4 sm:p-6">
-              <h2 className="text-xl font-black text-white">Tracked Links</h2>
+              <h2 className="text-xl font-black text-white">Enlaces rastreados</h2>
               <div className="mt-5 space-y-3">
                 {report.trackedLinks.length === 0 && (
                   <p className="text-sm text-zinc-400">
-                    This campaign does not have a tracked link.
+                    Esta campaña no tiene un enlace rastreado.
                   </p>
                 )}
                 {report.trackedLinks.map((link) => (
@@ -252,11 +252,11 @@ export default async function ReportPage({ params }: ReportPageProps) {
         </div>
 
         <section className="mt-8 border border-white/10 bg-white/[0.035] p-4 sm:p-6">
-          <h2 className="text-xl font-black text-white">Campaign Setup</h2>
+          <h2 className="text-xl font-black text-white">Configuración de la campaña</h2>
           <div className="mt-5 grid gap-5 md:grid-cols-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                Keywords
+                Palabras clave
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {report.campaign.keywords.map((keyword) => (
@@ -271,7 +271,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                Created
+                Creada
               </p>
               <p className="mt-3 text-sm text-zinc-300">
                 {formatDate(report.campaign.createdAt)}
@@ -279,7 +279,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
             </div>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                Source post
+                Publicación de origen
               </p>
               {report.campaign.postUrl ? (
                 <a
@@ -288,10 +288,10 @@ export default async function ReportPage({ params }: ReportPageProps) {
                   rel="noreferrer"
                   className="mt-3 inline-flex text-sm font-semibold text-cyan-200 transition hover:text-cyan-100"
                 >
-                  View Instagram post
+                  Ver publicación de Instagram
                 </a>
               ) : (
-                <p className="mt-3 text-sm text-zinc-400">Not attached</p>
+                <p className="mt-3 text-sm text-zinc-400">No adjuntada</p>
               )}
             </div>
           </div>
@@ -299,7 +299,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
         {report.branded && (
           <footer className="mt-8 border-t border-white/10 pt-6 text-center text-xs text-zinc-500">
-            Built with OpenReply, the Instagram comment-to-DM campaign OS.
+            Hecho con Comentio, el sistema de campañas de comentario a DM de Instagram.
           </footer>
         )}
       </section>

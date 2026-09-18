@@ -5,14 +5,14 @@ import TemplateVisual from "@/components/template-visual";
 import { CAMPAIGN_TEMPLATES } from "@/lib/templates/campaign-templates";
 
 export const metadata: Metadata = {
-  title: "Instagram Comment to DM Templates - OpenReply",
+  title: "Plantillas de comentario a DM de Instagram - Comentio",
   description:
-    "Copy ready-to-launch Instagram comment-to-DM campaign templates for product links, lead magnets, real estate, fitness, restaurants, events, and creators.",
+    "Copia plantillas de campaña de comentario a DM de Instagram listas para lanzar, para enlaces de producto, lead magnets, inmobiliaria, fitness, restaurantes, eventos y creadores.",
   keywords: [
-    "Instagram comment to DM templates",
-    "comment to DM campaigns",
-    "Instagram DM automation templates",
-    "Manychat alternative templates",
+    "plantillas de comentario a DM de Instagram",
+    "campañas de comentario a DM",
+    "plantillas de automatización de DM de Instagram",
+    "plantillas alternativa a Manychat",
   ],
 };
 
@@ -25,27 +25,28 @@ export default function TemplatesPage() {
         <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-16 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:px-8 lg:py-20">
           <div>
             <p className="text-sm font-bold uppercase tracking-wide text-cyan-200">
-              Public template library
+              Biblioteca pública de plantillas
             </p>
             <h1 className="mt-4 text-5xl font-black leading-[1.02] text-white sm:text-6xl">
-              Instagram campaigns you can copy in minutes
+              Campañas de Instagram que puedes copiar en minutos
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-zinc-300">
-              Start with proven comment-to-DM playbooks for lead magnets,
-              product links, events, service menus, and agency client campaigns.
+              Empieza con playbooks probados de comentario a DM para lead
+              magnets, enlaces de producto, eventos, menús de servicios y
+              campañas de clientes de agencia.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/login"
                 className="inline-flex items-center justify-center bg-cyan-300 px-6 py-3 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200"
               >
-                Start free
+                Empieza gratis
               </Link>
               <a
                 href="#template-grid"
                 className="inline-flex items-center justify-center border border-white/10 bg-white/[0.04] px-6 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
               >
-                Browse templates
+                Ver plantillas
               </a>
             </div>
           </div>
@@ -95,13 +96,13 @@ export default function TemplatesPage() {
                   href={`/templates/${template.slug}`}
                   className="inline-flex w-full items-center justify-center border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
                 >
-                  View playbook
+                  Ver playbook
                 </Link>
                 <Link
                   href={`/login?template=${template.slug}`}
                   className="inline-flex w-full items-center justify-center bg-cyan-300 px-4 py-3 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200"
                 >
-                  Use this template
+                  Usar esta plantilla
                 </Link>
               </div>
             </article>

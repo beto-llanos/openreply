@@ -10,8 +10,14 @@ type InvitePageProps = {
 };
 
 export const metadata: Metadata = {
-  title: "Accept Workspace Invitation - OpenReply",
+  title: "Aceptar invitación al espacio de trabajo - Comentio",
   robots: { index: false, follow: false },
+};
+
+const ROLE_LABELS: Record<string, string> = {
+  OWNER: "propietario",
+  ADMIN: "administrador",
+  MEMBER: "miembro",
 };
 
 export default async function InvitePage({ params }: InvitePageProps) {
@@ -36,23 +42,25 @@ export default async function InvitePage({ params }: InvitePageProps) {
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen w-full max-w-xl flex-col justify-center px-5 py-12">
         <Link href="/" className="mb-8 text-sm font-bold text-cyan-100">
-          OpenReply
+          Comentio
         </Link>
         <section className="border border-white/10 bg-white/[0.035] p-8">
           <p className="text-xs font-semibold uppercase tracking-wide text-cyan-100">
-            Workspace invitation
+            Invitación al espacio de trabajo
           </p>
           <h1 className="mt-4 text-3xl font-black leading-tight text-white">
-            Join {invitation.workspace.name}
+            Únete a {invitation.workspace.name}
           </h1>
           <p className="mt-4 text-sm leading-6 text-zinc-400">
-            You were invited as {invitation.role.toLowerCase()} for{" "}
+            Te invitaron como{" "}
+            {ROLE_LABELS[invitation.role] ?? invitation.role.toLowerCase()} para{" "}
             {invitation.email}.
           </p>
           <div className="mt-8">
             {expired ? (
               <p className="text-sm text-error">
-                This invitation has expired. Ask the workspace owner to resend it.
+                Esta invitación expiró. Pídele al propietario del espacio de
+                trabajo que la reenvíe.
               </p>
             ) : (
               <InvitationAcceptCard

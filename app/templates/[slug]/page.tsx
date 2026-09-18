@@ -25,17 +25,17 @@ export async function generateMetadata({
 
   if (!template) {
     return {
-      title: "Template Not Found - OpenReply",
+      title: "Plantilla no encontrada - Comentio",
     };
   }
 
   return {
-    title: `${template.title} - Instagram Comment to DM Template`,
+    title: `${template.title} - Plantilla de comentario a DM de Instagram`,
     description: template.summary,
     keywords: [
-      `${template.title} template`,
-      "Instagram comment to DM template",
-      "Instagram DM campaign template",
+      `Plantilla ${template.title}`,
+      "plantilla de comentario a DM de Instagram",
+      "plantilla de campaña de DM de Instagram",
       template.category,
       template.audience,
     ],
@@ -65,10 +65,10 @@ export default async function TemplateDetailPage({ params }: TemplatePageProps) 
               href="/templates"
               className="text-sm font-semibold text-zinc-400 transition hover:text-white"
             >
-              Back to templates
+              Volver a las plantillas
             </Link>
             <p className="mt-8 text-sm font-bold uppercase tracking-wide text-cyan-200">
-              {template.category} template
+              Plantilla {template.category}
             </p>
             <h1 className="mt-4 text-5xl font-black leading-[1.02] text-white sm:text-6xl">
               {template.title}
@@ -81,13 +81,13 @@ export default async function TemplateDetailPage({ params }: TemplatePageProps) 
                 href={`/login?template=${template.slug}`}
                 className="inline-flex items-center justify-center bg-cyan-300 px-6 py-3 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200"
               >
-                Use this template
+                Usar esta plantilla
               </Link>
               <a
                 href="#playbook"
                 className="inline-flex items-center justify-center border border-white/10 bg-white/[0.04] px-6 py-3 text-sm font-bold text-white transition hover:border-white/20 hover:bg-white/[0.08]"
               >
-                Read playbook
+                Leer playbook
               </a>
             </div>
           </div>
@@ -100,21 +100,21 @@ export default async function TemplateDetailPage({ params }: TemplatePageProps) 
         <aside className="space-y-4">
           <div className="border border-white/10 bg-white/[0.035] p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-              Audience
+              Audiencia
             </p>
             <p className="mt-2 text-lg font-bold text-white">{template.audience}</p>
           </div>
           <div className="border border-white/10 bg-white/[0.035] p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-              Setup time
+              Tiempo de configuración
             </p>
             <p className="mt-2 text-lg font-bold text-white">
-              {template.setupMinutes} minutes
+              {template.setupMinutes} minutos
             </p>
           </div>
           <div className="border border-white/10 bg-white/[0.035] p-5">
             <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-              Campaign goal
+              Objetivo de campaña
             </p>
             <p className="mt-2 text-lg font-bold text-white">{template.goal}</p>
           </div>
@@ -122,14 +122,14 @@ export default async function TemplateDetailPage({ params }: TemplatePageProps) 
 
         <div id="playbook" className="space-y-8">
           <section className="border border-white/10 bg-white/[0.035] p-6">
-            <h2 className="text-2xl font-black text-white">Campaign Outcome</h2>
+            <h2 className="text-2xl font-black text-white">Resultado de la campaña</h2>
             <p className="mt-3 text-base leading-8 text-zinc-300">
               {template.outcome}
             </p>
           </section>
 
           <section className="border border-white/10 bg-white/[0.035] p-6">
-            <h2 className="text-2xl font-black text-white">Setup Playbook</h2>
+            <h2 className="text-2xl font-black text-white">Playbook de configuración</h2>
             <ol className="mt-5 space-y-3">
               {template.playbook.map((step, index) => (
                 <li key={step} className="grid gap-3 sm:grid-cols-[40px_1fr]">
@@ -144,7 +144,7 @@ export default async function TemplateDetailPage({ params }: TemplatePageProps) 
 
           <section className="grid gap-4 md:grid-cols-2">
             <div className="border border-white/10 bg-white/[0.035] p-6">
-              <h2 className="text-xl font-black text-white">Best For</h2>
+              <h2 className="text-xl font-black text-white">Ideal para</h2>
               <ul className="mt-4 space-y-2">
                 {template.bestFor.map((item) => (
                   <li key={item} className="text-sm text-zinc-300">
@@ -154,7 +154,7 @@ export default async function TemplateDetailPage({ params }: TemplatePageProps) 
               </ul>
             </div>
             <div className="border border-white/10 bg-white/[0.035] p-6">
-              <h2 className="text-xl font-black text-white">Metrics To Watch</h2>
+              <h2 className="text-xl font-black text-white">Métricas a vigilar</h2>
               <ul className="mt-4 space-y-2">
                 {template.metrics.map((item) => (
                   <li key={item} className="text-sm text-zinc-300">
@@ -169,18 +169,19 @@ export default async function TemplateDetailPage({ params }: TemplatePageProps) 
             <div className="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <h2 className="text-2xl font-black text-white">
-                  Copy this campaign into OpenReply
+                  Copia esta campaña en Comentio
                 </h2>
                 <p className="mt-2 text-sm leading-6 text-zinc-300">
-                  Sign in, connect Instagram, pick a post or reel, and the
-                  template copy will be ready for your campaign draft.
+                  Inicia sesión, conecta Instagram, elige una publicación o reel
+                  y el texto de la plantilla estará listo para el borrador de tu
+                  campaña.
                 </p>
               </div>
               <Link
                 href={`/login?template=${template.slug}`}
                 className="inline-flex items-center justify-center bg-cyan-300 px-6 py-3 text-sm font-bold text-zinc-950 transition hover:bg-cyan-200"
               >
-                Use this template
+                Usar esta plantilla
               </Link>
             </div>
           </section>
@@ -189,7 +190,7 @@ export default async function TemplateDetailPage({ params }: TemplatePageProps) 
 
       <section className="border-t border-white/10 bg-zinc-950/60 py-14">
         <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-black text-white">More templates</h2>
+          <h2 className="text-2xl font-black text-white">Más plantillas</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {relatedTemplates.map((item) => (
               <Link

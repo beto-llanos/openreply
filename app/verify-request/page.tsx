@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Check your email - OpenReply",
-  description: "A sign-in link was sent to your email.",
+  title: "Revisa tu correo - Comentio",
+  description: "Se envió un enlace de acceso a tu correo.",
 };
 
 export default function VerifyRequestPage() {
@@ -11,19 +11,19 @@ export default function VerifyRequestPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-2xl font-semibold text-foreground">
-            OpenReply
+            Comentio
           </h1>
         </div>
 
         <div className="panel rounded p-8 text-center">
-          <h2 className="text-lg font-semibold mb-2">Check your email</h2>
+          <h2 className="text-lg font-semibold mb-2">Revisa tu correo</h2>
           <p className="text-sm text-muted">
-            We sent you a secure sign-in link. Open it on this device to
-            continue.
+            Te enviamos un enlace seguro para iniciar sesión. Ábrelo en este
+            dispositivo para continuar.
           </p>
           <p className="mt-6 text-sm">
             <Link href="/login" className="text-accent hover:underline">
-              Back to sign in
+              Volver a iniciar sesión
             </Link>
           </p>
         </div>

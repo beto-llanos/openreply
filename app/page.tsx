@@ -118,7 +118,7 @@ function Eyebrow({
 }) {
   return (
     <p
-      className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] ${
+      className={`flex flex-wrap items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.08em] sm:text-xs sm:tracking-[0.12em] ${
         onDark ? "text-support-live" : "text-support"
       }`}
     >
@@ -340,7 +340,7 @@ export default function Home() {
             </Link>
             <Link
               href="/login"
-              className="inline-flex items-center justify-center bg-accent-hover px-4 py-2 text-sm font-bold text-white transition hover:bg-[#C2410C]"
+              className="hidden items-center justify-center bg-accent-hover px-4 py-2 text-sm font-bold text-white transition hover:bg-[#C2410C] sm:inline-flex"
             >
               Empezar gratis
             </Link>

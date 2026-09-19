@@ -43,3 +43,6 @@ next-env.d.ts
 
 /app/generated/prisma
 .gstack/
+
+# Docs locales con datos personales/negocio (no pushear a repo publico)
+APP_REVIEW_SUBMISSION.md

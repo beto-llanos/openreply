@@ -8,6 +8,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 const navItems = [
   { label: "Panel", href: "/dashboard" },
@@ -94,9 +95,17 @@ export default function Sidebar({
           })}
         </nav>
 
-        <div className="px-5 py-4 border-t border-border">
-          <p className="text-sm text-foreground truncate">{workspaceName}</p>
-          <p className="text-xs text-muted">Comentio</p>
+        <div className="px-5 py-4 border-t border-border space-y-3">
+          <div>
+            <p className="text-sm text-foreground truncate">{workspaceName}</p>
+            <p className="text-xs text-muted">Comentio</p>
+          </div>
+          <button
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="w-full text-left px-3 py-2.5 min-h-[40px] rounded text-sm text-muted hover:text-foreground hover:bg-surface-hover"
+          >
+            Cerrar sesión
+          </button>
         </div>
       </aside>
     </>
